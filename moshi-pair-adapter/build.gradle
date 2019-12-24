@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion config.compilesdk
+    buildToolsVersion config.buildtools
+
+    defaultConfig {
+        minSdkVersion config.minsdk
+        targetSdkVersion config.targetsdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    api deps.kotlin.stdlib
+    api deps.moshi.common
+}

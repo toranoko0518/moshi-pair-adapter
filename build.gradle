@@ -1,0 +1,48 @@
+buildscript {
+    ext.config = [
+        'compilesdk': 29,
+        'buildtools': '29.0.2',
+        'minsdk': 21,
+        'targetsdk': 29
+    ]
+
+    ext.versions = [
+        'kotlin': '1.3.61',
+        'moshi': '1.9.2'
+    ]
+
+    ext.deps = [
+        'kotlin': [
+            'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+        ],
+        'androidx': [
+            'appcompat': 'androidx.appcompat:appcompat:1.1.0',
+            'constraintlayout': 'androidx.constraintlayout:constraintlayout:1.1.3'
+        ],
+        'moshi': [
+            'common': "com.squareup.moshi:moshi:${versions.moshi}",
+            'kotlin': "com.squareup.moshi:moshi-kotlin:${versions.moshi}"
+        ]
+    ]
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
