@@ -19,12 +19,15 @@ android {
         jvmTarget = "1.8"
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    sourceSets.all {
+        java.srcDirs += "src/$name/kotlin"
     }
 }
 
 dependencies {
     api deps.kotlin.stdlib
     api deps.moshi.common
+
+    testImplementation deps.junit
+    testImplementation deps.truth
 }

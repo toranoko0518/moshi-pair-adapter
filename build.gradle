@@ -22,7 +22,9 @@ buildscript {
         'moshi': [
             'common': "com.squareup.moshi:moshi:${versions.moshi}",
             'kotlin': "com.squareup.moshi:moshi-kotlin:${versions.moshi}"
-        ]
+        ],
+        'junit': 'junit:junit:4.12',
+        'truth': 'com.google.truth:truth:1.0'
     ]
 
     repositories {
