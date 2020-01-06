@@ -3,7 +3,23 @@ buildscript {
         'compilesdk': 29,
         'buildtools': '29.0.2',
         'minsdk': 21,
-        'targetsdk': 29
+        'targetsdk': 29,
+        'version': [
+            'major': 1,
+            'minor': 0,
+            'patch': 0
+        ]
+    ]
+
+    ext.pj = [
+        'versions': [
+            'name': "${config.version.major}.${config.version.minor}.${config.version.patch}",
+            'code': config.version.major * 10000 + config.version.minor * 100 + config.version.patch
+        ],
+        'groupId': 'io.github.toranoko0518.moshi',
+        'siteUrl': 'https://github.com/toranoko0518/moshi-pair-adapter',
+        'gitHubUrl': 'https://github.com/toranoko0518/moshi-pair-adapter',
+        'scmConnection': 'scm:git:https://github.com/toranoko0518/moshi-pair-adapter'
     ]
 
     ext.versions = [
@@ -35,6 +51,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 

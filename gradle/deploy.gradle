@@ -1,0 +1,74 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+publishing {
+    publications {
+        bintray(MavenPublication) {
+            artifact("$buildDir/outputs/aar/moshi-pair-adapter-release.aar")
+            groupId = pj.groupId
+            artifactId = 'pairadapter'
+            version = pj.versions.name
+
+            pom.withXml {
+                def node = asNode()
+
+                def licenses = node.appendNode('licenses')
+                appendLicense(licenses, 'The Apache Software License, Version 2.0', 'http://www.apache.org/licenses/LICENSE-2.0.txt', 'repo')
+
+                appendScm(node, pj.scmConnection, pj.gitHubUrl)
+
+                def dependencies = node.appendNode('dependencies')
+                configurations.api.dependencies.each {
+                    appendDependency(dependencies, it.group, it.name, it.version, 'compile')
+                }
+                configurations.implementation.dependencies.each {
+                    appendDependency(dependencies, it.group, it.name, it.version, 'runtime')
+                }
+            }
+        }
+    }
+}
+
+static def appendLicense(parentNode, name, url, distribution) {
+    def node = parentNode.appendNode('license')
+    node.appendNode('name', name)
+    node.appendNode('url', url)
+    node.appendNode('distribution', distribution)
+}
+
+static def appendScm(parentNode, connection, url) {
+    def node = parentNode.appendNode('scm')
+    node.appendNode('connection', connection)
+    node.appendNode('url', url)
+}
+
+static def appendDependency(parentNode, groupId, artifactId, version, scope) {
+    def node = parentNode.appendNode('dependency')
+    node.appendNode('groupId', groupId)
+    node.appendNode('artifactId', artifactId)
+    node.appendNode('version', version)
+    node.appendNode('scope', scope)
+}
+
+bintray {
+    user = project.hasProperty('bintray_user') ? bintray_user : ''
+    key = project.hasProperty('bintray_key') ? bintray_key : ''
+    publications = ['bintray']
+
+    pkg {
+        repo = 'maven'
+        name = pj.groupId + '.' + 'pairadapter'
+        licenses = ['Apache-2.0']
+        websiteUrl = pj.siteUrl
+        vcsUrl = pj.gitHubUrl + '.git'
+        issueTrackerUrl = pj.githubUrl + '/issues'
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            released = new Date()
+            vcsTag = project.version
+        }
+    }
+}
+
+bintrayUpload.dependsOn assemble
